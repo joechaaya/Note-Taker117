@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db = require('../db/db')
+const db = require('"C:\Users\joech\Desktop\Note-Taker Master\db\db.json"')
 const { filterById, createNote, removeNote, editNote, validateNote } = require('../../lib.notes.js');
 
 
