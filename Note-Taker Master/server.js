@@ -15,7 +15,7 @@ app.use(express.static('public'));
 app.use('/api', apiRoutes);
 app.use('/', htmlRoutes);
 
-app.listen(PORT, () => 
-    console.log('The API is now connected to and listening from ${PORT}')
-);
+app.listen(PORT, () => {
+    console.log('API server now on port 3001')
+});
 
