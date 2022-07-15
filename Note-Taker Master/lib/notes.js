@@ -38,9 +38,14 @@ function removeNote(result, noteArr) {
     JSON.stringify({notes: noteArr}, null, 2))
 }
 
+function validateNote(body) {
+    return body.length>0
+}
+
 module.exports = {
     createNote,
     filterById,
     removeNote,
     editNote,
+    validateNote,
 }
