@@ -8,7 +8,7 @@ function createNote(body, noteArr){
     noteArr.push(note);
 
     fs.writeFileSync(
-        path.join(_dirname, '../db/db'),
+        path.join(_dirname, '../apiRoutes/db.json'),
         JSON.stringify({ notes: noteArr}, null, 2)
     )
 };
@@ -20,7 +20,7 @@ function editNote(body, noteArr) {
     noteArr.splice(index, 0, body);
 
     fs.writeFileSync(
-        path.join(__dirname, '../db/db'),
+        path.join(__dirname, '../apiRoutes/db.json'),
         JSON.stringify({ notes: noteArr }, null, 2)
     )
 }
@@ -34,7 +34,7 @@ function removeNote(result, noteArr) {
     const index = noteArr.indexOf(result);
 
     noteArr.splice(index, 1);
-    fs.writeFileSync(path.join(_dirname, '../db/db'),
+    fs.writeFileSync(path.join(_dirname, '../apiRoutes/db.json'),
     JSON.stringify({notes: noteArr}, null, 2))
 }
 
