@@ -1,52 +1,57 @@
-const fs = require('fs');
-const path = require('path');
-const {json} =require('body-parser');
+const { json } = require('body-parser');
+const fs = require ('fs');
+const path= require('path');
 
-function createNote(body, noteArr){
-    const note = body;
-
-    noteArr.push(note);
-
-    fs.writeFileSync(
-        path.join(_dirname, '../apiRoutes/db.json'),
-        JSON.stringify({ notes: noteArr}, null, 2)
-    )
+function filterById(id, notesArr) {
+    const result=notesArr.filter(note => note.id===id)[0];
+    return result;
 };
 
-function editNote(body, noteArr) {
-    const index = noteArr.checkIndex(note => note.id === body.id);
+function validateNote(note) {
+    if(!note.title || typeof note.title !== 'string'){
+        return false;
+    }
+    if(!note.text || typeof note.text!=='string'){
+        return false;
+    }
+    return true;
+};
 
-    noteArr.splice(index, 1);
-    noteArr.splice(index, 0, body);
+function getNote() {
+ let notes=JSON.parse(fs.readFileSync(path.join(__dirname,'../apiRoutes/db.json')))
+ return notes.notes;
+};
 
+function createNote(body, notesArr) {
+    const note = body;
+    
+    notesArr.push(note);
     fs.writeFileSync(
-        path.join(__dirname, '../apiRoutes/db.json'),
-        JSON.stringify({ notes: noteArr }, null, 2)
-    )
-}
+        path.join(__dirname,'../apiRoutes/db.json'),
+        JSON.stringify({notes: notesArr}, null, 2)
+    );
+    return note;
+};
 
-function filterById(id, noteArr) {
-    const result = noteArr.filter(note => note.id === id)[0];
-    return result;
-}
-
-function removeNote(result, noteArr) {
-    const index = noteArr.indexOf(result);
-
-    noteArr.splice(index, 1);
-    fs.writeFileSync(path.join(_dirname, '../apiRoutes/db.json'),
-    JSON.stringify({notes: noteArr}, null, 2))
-}
-
-function validateNote(body) {
-    return body.length>0
-}
+function removeNote(id, notesArr) {
+    let newNotes = [];
+   notesArr.forEach(note=>{
+       if(note.id != id)
+            newNotes.push(note);
+   });
+   notesArr=newNotes;
+   fs.writeFileSync(
+        path.join(__dirname,'../apiRoutes/db.json'),
+        JSON.stringify({notes: notesArr}, null, 2)
+   );
+   return notesArr;
+};
 
 module.exports = {
     createNote,
     filterById,
     removeNote,
-    editNote,
+    getNote,
     validateNote,
     
 }
